@@ -21,19 +21,18 @@
     <!--[if lte IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-
-    <!-- Add your site or application content here -->
-    <div class="header">
-    </div>
-
+    
+    <!-- Container for views, loads the nes --> 
     <div class="container" ng-controller='MainCtrl'>
+        <!-- Dynamically swaps in the views based on isSchoolOut() -->
         <ng-include ng-if="isSchoolIn()" src="'views/main.html'"></ng-include>
         <ng-include ng-if="!isSchoolIn()" src="'views/out.html'"></ng-include>
     </div>
-
+    
+    <!-- Fotter, nothing much interesting here -->
     <div class="footer">
         <div class="container">
-            <p><span class="glyphicon glyphicon-heart"></span> from the DHSDevClub</p>
+            <p><span class="glyphicon glyphicon-heart"></span> from the <a href='http://dhsdevelopers.org/#/'>DHSDevClub</a></p>
         </div>
     </div>
 

@@ -9,14 +9,19 @@
  */
 angular.module('whenDoesItEndApp')
     .controller('MainCtrl', function ($scope, $interval) {
-
-        $scope.dayi = new Date().getDay();
+        // Sets the day-index (dayi) to the current day-1 as 0 is sunday
+        $scope.dayi = new Date().getDay()-1;
+        // Sets the period-index (peri) to 0 for the start of the day
         $scope.peri = 0;
+        // Initialises the endsIn var as a string
         $scope.endsIn = '';
-        $scope.times = [];
+        // Sets the day array's contents
         $scope.day = [
+            // Monday, index 0. This is why we subtract one from the current day. This is repeated for each day
             {
+                // Array of periods for the day
                 periods: [
+                    // Period object, contains name and end time in number of minutes since the beginning of the day
                     {
                         name: '1st',
                         end: 528
@@ -255,56 +260,49 @@ angular.module('whenDoesItEndApp')
                     ]
                 }
             ];
-
+        // Increments the period index if the time is greater than the current end time based on minutes since the beginning of the day
         var inc = function (time) {
             if (time >= $scope.day[$scope.dayi].periods[$scope.peri].end) {
                 $scope.peri++;
             }
         };
-
+        // Checks wheather or not school is in based on minutes since the beginning of the day
         $scope.isSchoolIn = function (time) {
-            if ($scope.dayi === 6 || $scope.dayi === 0) {
+            if ($scope.dayi === 5 || $scope.dayi === -1) { // Checks if the day is Saturday(5) or Sunday(-1). Sunday is off because 1 is subtracted from the date in dayi to make the arrays easier
                 return false;
-            } else if (time < 480) {
+            } else if (time < 480) { // Checks if the time is befor 8:00, before school starts
                 return false;
-            } else if (time > $scope.day[$scope.dayi].periods[$scope.day[$scope.dayi].periods.length - 1].end) {
+            } else if (time > $scope.day[$scope.dayi].periods[$scope.day[$scope.dayi].periods.length - 1].end) { // Checks if the time is greater than the end time of the final class for a given day
                 return false;
-            } else {
+            } else { // If none of these conditions are met, retun true
                 return true;
             }
         };
-
+        // Checks the ammount of time untill a given period ends based on minutes since the beginning of the day
         var endsIn = function (time) {
-            var resp;
-
-            var min = $scope.day[$scope.dayi].periods[$scope.peri].end - time;
-            var hour = Math.floor(time / $scope.day[$scope.dayi].periods[$scope.peri].end);
-            $scope.hour = time + ' ' + hour;
-            if (hour <= 0) {
-                resp = min + ' minutes';
-            } else {
-                resp = hour + ' hours and ' + min + ' minutes';
+            var resp; // Initialises the resp variable
+            
+            var diff = $scope.day[$scope.dayi].periods[$scope.peri].end - time; // Sets diff as the number of minutes untill the end of class
+            var hour = Math.floor(diff / 60); // Sets hour as the truncated quotient of the number of minutes left in class and 60
+            var min = diff - (60*hour); // Sets min as the number of minutes left in class minus those reperesented by the hour denomination
+            if (hour <= 0) { // Checks if the hour var is less than or equal too zero, if true, only the minuts are displayed
+                resp = min + ' minutes'; // Sets resp as just the minuts left in class
+            } else { // Otherwise, if there is a nonzero value for hours, bot the hours and minutes are displayed
+                resp = hour + ' hour and ' + min + ' minutes'; // Sets resp as both the hours and the minutes
             }
-
-            $scope.endsIn = resp;
+            
+            $scope.endsIn = resp; // Sets the endsIn var to equal the local resp var
 
         };
-
-        /*
-        for(var i=0; i < $scope.day[$scope.dayi].periods.length; i++){
-            $scope.times.push(($scope.day[$scope.dayi].periods[i].end.hour * 60) + $scope.day[$scope.dayi].periods[i].end.min);
-        }
-        */
-
+        // Interval, runs once every second
         $interval(function () {
-            var date = new Date();
-            date.setHours(8, 49);
-            var time = (60 * date.getHours()) + date.getMinutes();
-            if ($scope.isSchoolIn()) {
-                inc(time);
-                endsIn(time);
+            var date = new Date(); // Sets date to be a new Date() object
+            // date.setHours(8, 30); //Used for debugging, overrides the hour and minute values.
+            var time = (60 * date.getHours()) + date.getMinutes(); // Converts the current time into minutes since the beginning of the day
+            if ($scope.isSchoolIn()) { // Checks if school is in, if false, the in() and endsIn() functions dont need to run
+                inc(time); // Runs the inc() funtion and passes in the converted time
+                endsIn(time); // Runs the endsIn() function and passes in the converted time
             }
-            //console.log($scope.endsIn + '  ' + date.getSeconds());
         }, 1000);
 
     });

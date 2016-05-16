@@ -1,6 +1,12 @@
+<!-- Static text -->
 <h1>YOU ARE IN</h1>
+<!-- Dynamic text: Reads name property of current period -->
 <h2>{{ day[dayi].periods[peri].name }}</h2>
+<!-- Static text -->
 <h1>IT ENDS IN</h1>
+<!-- Dynamic text: Reads endsIn variable, set in endsIn() -->
 <h2>{{ endsIn }}</h2>
+<!-- Static text -->
 <h1>NEXT IS</h1>
+<!-- Dynamic text: Reads name property of next period -->
 <h2>{{ day[dayi].periods[peri+1].name }}</h2>

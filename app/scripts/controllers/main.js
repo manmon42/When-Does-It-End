@@ -281,8 +281,7 @@ angular.module('whenDoesItEndApp')
         };
         // Checks the ammount of time untill a given period ends based on minutes since the beginning of the day
         var endsIn = function (time) {
-            console.log('obj');
-            var resp = 'testd'; // Initialises the resp variable
+            var resp; // Initialises the resp variable
             
             var diff = $scope.day[$scope.dayi].periods[$scope.peri].end - time; // Sets diff as the number of minutes untill the end of class
             var hour = Math.floor(diff / 60); // Sets hour as the truncated quotient of the number of minutes left in class and 60

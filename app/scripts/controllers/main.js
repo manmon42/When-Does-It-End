@@ -267,20 +267,22 @@ angular.module('whenDoesItEndApp')
             }
         };
         // Checks wheather or not school is in based on minutes since the beginning of the day
-        $scope.isSchoolIn = function (time) {
+        var isSchoolIn = function (time) {
             if ($scope.dayi === 5 || $scope.dayi === -1) { // Checks if the day is Saturday(5) or Sunday(-1). Sunday is off because 1 is subtracted from the date in dayi to make the arrays easier
-                return false;
+                $scope.isSchoolIn = false;
             } else if (time < 480) { // Checks if the time is befor 8:00, before school starts
-                return false;
+                $scope.isSchoolIn = false;
             } else if (time > $scope.day[$scope.dayi].periods[$scope.day[$scope.dayi].periods.length - 1].end) { // Checks if the time is greater than the end time of the final class for a given day
-                return false;
+                $scope.isSchoolIn = false;
             } else { // If none of these conditions are met, retun true
-                return true;
+                $scope.isSchoolIn = true;
             }
+            return $scope.isSchoolIn;
         };
         // Checks the ammount of time untill a given period ends based on minutes since the beginning of the day
         var endsIn = function (time) {
-            var resp; // Initialises the resp variable
+            console.log('obj');
+            var resp = 'testd'; // Initialises the resp variable
             
             var diff = $scope.day[$scope.dayi].periods[$scope.peri].end - time; // Sets diff as the number of minutes untill the end of class
             var hour = Math.floor(diff / 60); // Sets hour as the truncated quotient of the number of minutes left in class and 60
@@ -299,7 +301,7 @@ angular.module('whenDoesItEndApp')
             var date = new Date(); // Sets date to be a new Date() object
             // date.setHours(8, 30); //Used for debugging, overrides the hour and minute values.
             var time = (60 * date.getHours()) + date.getMinutes(); // Converts the current time into minutes since the beginning of the day
-            if ($scope.isSchoolIn()) { // Checks if school is in, if false, the in() and endsIn() functions dont need to run
+            if (isSchoolIn(time)) { // Checks if school is in, if false, the in() and endsIn() functions dont need to run
                 inc(time); // Runs the inc() funtion and passes in the converted time
                 endsIn(time); // Runs the endsIn() function and passes in the converted time
             }

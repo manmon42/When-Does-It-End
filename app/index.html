@@ -25,8 +25,8 @@
     <!-- Container for views, loads the nes --> 
     <div class="container" ng-controller='MainCtrl'>
         <!-- Dynamically swaps in the views based on isSchoolOut() -->
-        <ng-include ng-if="isSchoolIn()" src="'views/main.html'"></ng-include>
-        <ng-include ng-if="!isSchoolIn()" src="'views/out.html'"></ng-include>
+        <ng-include ng-if="isSchoolIn" src="'views/main.html'"></ng-include>
+        <ng-include ng-if="!isSchoolIn" src="'views/out.html'"></ng-include>
     </div>
     
     <!-- Fotter, nothing much interesting here -->

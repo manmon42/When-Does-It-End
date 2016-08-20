@@ -260,21 +260,23 @@ angular.module('whenDoesItEndApp')
                     ]
                 }
             ];
-
+        // Function to determine wheather or not the period needs to be incremented
         var needsInc = function (time) {
             return (time >= $scope.day[$scope.dayi].periods[$scope.peri].end);
         };
+        // Function to convert hours and minutes to time code
         var convertTime = function (time) {
             return (60 * time.getHours() + time.getMinutes());
         };
+        // Initialises the app by running helper functions
         var init = function () {
-            var tempDate = new Date();
+            var tempDate = new Date(); // Sets temp date var just for the init scope
             // tempDate.setHours(11, 30); //Used for debugging, overrides the hour and minute values.
-            var time = convertTime(tempDate);
-            while (needsInc(time) && isSchoolIn(time)) {
+            var time = convertTime(tempDate); // Converts the temp date time to time code
+            while (needsInc(time) && isSchoolIn(time)) { // Increments untill no longer needed as long as school is in 
                 $scope.peri++;
             }
-            endsIn(time);
+            endsIn(time); // Runs the helper function to give a value before displaing the app
         };
         // Checks wheather or not school is in based on minutes since the beginning of the day
         var isSchoolIn = function (time) {

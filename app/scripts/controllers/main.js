@@ -10,7 +10,7 @@
 angular.module('whenDoesItEndApp')
     .controller('MainCtrl', function ($scope, $interval) {
         // Sets the day-index (dayi) to the current day-1 as 0 is sunday
-        $scope.dayi = new Date().getDay()-1;
+        $scope.dayi = new Date().getDay() - 1;
         // Sets the period-index (peri) to 0 for the start of the day
         $scope.peri = 0;
         // Initialises the endsIn var as a string
@@ -260,11 +260,21 @@ angular.module('whenDoesItEndApp')
                     ]
                 }
             ];
-        // Increments the period index if the time is greater than the current end time based on minutes since the beginning of the day
-        var inc = function (time) {
-            if (time >= $scope.day[$scope.dayi].periods[$scope.peri].end) {
+
+        var needsInc = function (time) {
+            return (time >= $scope.day[$scope.dayi].periods[$scope.peri].end);
+        };
+        var convertTime = function (time) {
+            return (60 * time.getHours() + time.getMinutes());
+        };
+        var init = function () {
+            var tempDate = new Date();
+            // tempDate.setHours(11, 30); //Used for debugging, overrides the hour and minute values.
+            var time = convertTime(tempDate);
+            while (needsInc(time) && isSchoolIn(time)) {
                 $scope.peri++;
             }
+            endsIn(time);
         };
         // Checks wheather or not school is in based on minutes since the beginning of the day
         var isSchoolIn = function (time) {
@@ -282,26 +292,29 @@ angular.module('whenDoesItEndApp')
         // Checks the ammount of time untill a given period ends based on minutes since the beginning of the day
         var endsIn = function (time) {
             var resp; // Initialises the resp variable
-            
+
             var diff = $scope.day[$scope.dayi].periods[$scope.peri].end - time; // Sets diff as the number of minutes untill the end of class
             var hour = Math.floor(diff / 60); // Sets hour as the truncated quotient of the number of minutes left in class and 60
-            var min = diff - (60*hour); // Sets min as the number of minutes left in class minus those reperesented by the hour denomination
+            var min = diff - (60 * hour); // Sets min as the number of minutes left in class minus those reperesented by the hour denomination
             if (hour <= 0) { // Checks if the hour var is less than or equal too zero, if true, only the minuts are displayed
                 resp = min + ' minutes'; // Sets resp as just the minuts left in class
             } else { // Otherwise, if there is a nonzero value for hours, bot the hours and minutes are displayed
                 resp = hour + ' hour and ' + min + ' minutes'; // Sets resp as both the hours and the minutes
             }
-            
+
             $scope.endsIn = resp; // Sets the endsIn var to equal the local resp var
 
         };
+        init();
         // Interval, runs once every second
         $interval(function () {
             var date = new Date(); // Sets date to be a new Date() object
-            // date.setHours(8, 30); //Used for debugging, overrides the hour and minute values.
-            var time = (60 * date.getHours()) + date.getMinutes(); // Converts the current time into minutes since the beginning of the day
+            // date.setHours(11, 30); //Used for debugging, overrides the hour and minute values.
+            var time = convertTime(date); // Converts the current time into minutes since the beginning of the day
             if (isSchoolIn(time)) { // Checks if school is in, if false, the in() and endsIn() functions dont need to run
-                inc(time); // Runs the inc() funtion and passes in the converted time
+                if (needsInc(time)) {
+                    $scope.peri++;
+                }
                 endsIn(time); // Runs the endsIn() function and passes in the converted time
             }
         }, 1000);

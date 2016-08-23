@@ -271,7 +271,7 @@ angular.module('whenDoesItEndApp')
         // Initialises the app by running helper functions
         var init = function () {
             var tempDate = new Date(); // Sets temp date var just for the init scope
-            tempDate.setHours(10, 20); //Used for debugging, overrides the hour and minute values.
+            // tempDate.setHours(10, 20); //Used for debugging, overrides the hour and minute values.
             var time = convertTime(tempDate); // Converts the temp date time to time code
             while (needsInc(time) && isSchoolIn(time)) { // Increments untill no longer needed as long as school is in 
                 $scope.peri++;
@@ -313,7 +313,7 @@ angular.module('whenDoesItEndApp')
         // Interval, runs once every second
         $interval(function () {
             var date = new Date(); // Sets date to be a new Date() object
-            date.setHours(10, 20); //Used for debugging, overrides the hour and minute values.
+            // date.setHours(10, 20); //Used for debugging, overrides the hour and minute values.
             var time = convertTime(date); // Converts the current time into minutes since the beginning of the day
             if (isSchoolIn(time)) { // Checks if school is in, if false, the in() and endsIn() functions dont need to run
                 if (needsInc(time)) {

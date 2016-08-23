@@ -271,7 +271,7 @@ angular.module('whenDoesItEndApp')
         // Initialises the app by running helper functions
         var init = function () {
             var tempDate = new Date(); // Sets temp date var just for the init scope
-            // tempDate.setHours(11, 30); //Used for debugging, overrides the hour and minute values.
+            tempDate.setHours(10, 20); //Used for debugging, overrides the hour and minute values.
             var time = convertTime(tempDate); // Converts the temp date time to time code
             while (needsInc(time) && isSchoolIn(time)) { // Increments untill no longer needed as long as school is in 
                 $scope.peri++;
@@ -299,9 +299,11 @@ angular.module('whenDoesItEndApp')
             var hour = Math.floor(diff / 60); // Sets hour as the truncated quotient of the number of minutes left in class and 60
             var min = diff - (60 * hour); // Sets min as the number of minutes left in class minus those reperesented by the hour denomination
             if (hour <= 0) { // Checks if the hour var is less than or equal too zero, if true, only the minuts are displayed
-                resp = min + ' minutes'; // Sets resp as just the minuts left in class
+                resp = min + ' minute' + (min == 1 ? '' : 's'); // Sets resp as just the minuts left in class
+            } else if(!(hour <= 0) && min == 0){
+                resp = hour + ' hour'
             } else { // Otherwise, if there is a nonzero value for hours, bot the hours and minutes are displayed
-                resp = hour + ' hour and ' + min + ' minutes'; // Sets resp as both the hours and the minutes
+                resp = hour + ' hour and ' + min + ' minute' + (min == 1 ? '' : 's'); // Sets resp as both the hours and the minutes
             }
 
             $scope.endsIn = resp; // Sets the endsIn var to equal the local resp var
@@ -311,7 +313,7 @@ angular.module('whenDoesItEndApp')
         // Interval, runs once every second
         $interval(function () {
             var date = new Date(); // Sets date to be a new Date() object
-            // date.setHours(11, 30); //Used for debugging, overrides the hour and minute values.
+            date.setHours(10, 20); //Used for debugging, overrides the hour and minute values.
             var time = convertTime(date); // Converts the current time into minutes since the beginning of the day
             if (isSchoolIn(time)) { // Checks if school is in, if false, the in() and endsIn() functions dont need to run
                 if (needsInc(time)) {

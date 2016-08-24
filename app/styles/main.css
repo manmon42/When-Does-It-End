@@ -19,6 +19,7 @@ h2 {
     color: #C2185B
 }
 
+
 /* Custom page footer */
 
 .footer {
@@ -26,6 +27,7 @@ h2 {
     color: #777;
     border-top: 1px solid #e5e5e5;
 }
+
 
 /* Responsive */
 
@@ -70,6 +72,6 @@ h2 {
         font-size: 3.0em;
     }
     h2 {
-        font-size: 1.0em;
+        font-size: 2.0em;
     }
 }

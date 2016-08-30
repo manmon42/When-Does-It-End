@@ -8,7 +8,7 @@
  * Controller of the whenDoesItEndApp
  */
 angular.module('whenDoesItEndApp')
-    .controller('MainCtrl', function ($scope, $interval) {
+    .controller('MainCtrl', function ($scope, $interval, $http) {
         // Sets the day-index (dayi) to the current day-1 as 0 is sunday
         $scope.dayi = new Date().getDay() - 1;
         // Sets the period-index (peri) to 0 for the start of the day
@@ -16,250 +16,12 @@ angular.module('whenDoesItEndApp')
         // Initialises the endsIn var as a string
         $scope.endsIn = '';
         // Sets the day array's contents
-        $scope.day = [
-            // Monday, index 0. This is why we subtract one from the current day. This is repeated for each day
-            {
-                // Array of periods for the day
-                periods: [
-                    // Period object, contains name and end time in number of minutes since the beginning of the day
-                    {
-                        name: '1st',
-                        end: 528
-                    },
+        $http.get('/res/drake.json').then(function (res) {
+            $scope.day = res.data;
+        }, function (err) {
+            console.log(err);
+        });
 
-                    {
-                        name: '2nd',
-                        end: 581
-                    },
-
-                    {
-                        name: 'Break',
-                        end: 596
-                    },
-
-                    {
-                        name: '3rd',
-                        end: 649
-                    },
-
-                    {
-                        name: 'Advisory',
-                        end: 668
-                    },
-
-                    {
-                        name: '4th',
-                        end: 721
-                    },
-
-                    {
-                        name: 'Lunch',
-                        end: 761
-                    },
-
-                    {
-                        name: '5th',
-                        end: 814
-                    },
-
-                    {
-                        name: '6th',
-                        end: 867
-                    },
-
-                    {
-                        name: '7th',
-                        end: 920
-                    },
-
-                    {
-                        name: 'Freedom',
-                        end: 920
-                    }
-
-                    ]
-                },
-
-            {
-                periods: [
-                    {
-                        name: '1st',
-                        end: 570
-                    },
-
-                    {
-                        name: 'Break',
-                        end: 580
-                    },
-
-                    {
-                        name: '2nd',
-                        end: 680
-                    },
-
-                    {
-                        name: 'Lunch',
-                        end: 720
-                    },
-
-                    {
-                        name: '5th',
-                        end: 815
-                    },
-
-                    {
-                        name: 'Break',
-                        end: 825
-                    },
-
-                    {
-                        name: '7th',
-                        end: 920
-                    },
-
-                    {
-                        name: 'Freedom',
-                        end: 920
-                    }
-
-                    ]
-                },
-
-            {
-                periods: [
-                    {
-                        name: '3rd',
-                        end: 570
-                    },
-
-                    {
-                        name: 'Break',
-                        end: 585
-                    },
-
-                    {
-                        name: 'Advisory',
-                        end: 600
-                    },
-
-                    {
-                        name: 'Tutorial',
-                        end: 650
-                    },
-
-                    {
-                        name: '4th',
-                        end: 745
-                    },
-
-                    {
-                        name: 'Lunch',
-                        end: 785
-                    },
-
-                    {
-                        name: '6th',
-                        end: 880
-                    },
-
-                    {
-                        name: 'Freedom',
-                        end: 880
-                    }
-
-                    ]
-                },
-
-            {
-                periods: [
-                    {
-                        name: '1st',
-                        end: 570
-                    },
-
-                    {
-                        name: 'Break',
-                        end: 580
-                    },
-
-                    {
-                        name: '2nd',
-                        end: 680
-                    },
-
-                    {
-                        name: 'Lunch',
-                        end: 720
-                    },
-
-                    {
-                        name: '5th',
-                        end: 815
-                    },
-
-                    {
-                        name: 'Break',
-                        end: 825
-                    },
-
-                    {
-                        name: '7th',
-                        end: 920
-                    },
-
-                    {
-                        name: 'Freedom',
-                        end: 920
-                    }
-
-                    ]
-                },
-
-            {
-                periods: [
-                    {
-                        name: '3rd',
-                        end: 570
-                    },
-
-                    {
-                        name: 'Break',
-                        end: 585
-                    },
-
-                    {
-                        name: 'Advisory',
-                        end: 600
-                    },
-
-                    {
-                        name: 'Tutorial',
-                        end: 650
-                    },
-
-                    {
-                        name: '4th',
-                        end: 745
-                    },
-
-                    {
-                        name: 'Lunch',
-                        end: 785
-                    },
-
-                    {
-                        name: '6th',
-                        end: 880
-                    },
-
-                    {
-                        name: 'Freedom',
-                        end: 880
-                    }
-
-                    ]
-                }
-            ];
         // Function to determine wheather or not the period needs to be incremented
         var needsInc = function (time) {
             return (time >= $scope.day[$scope.dayi].periods[$scope.peri].end);
@@ -273,10 +35,12 @@ angular.module('whenDoesItEndApp')
             var tempDate = new Date(); // Sets temp date var just for the init scope
             // tempDate.setHours(10, 20); //Used for debugging, overrides the hour and minute values.
             var time = convertTime(tempDate); // Converts the temp date time to time code
-            while (needsInc(time) && isSchoolIn(time)) { // Increments untill no longer needed as long as school is in 
-                $scope.peri++;
+            if (isSchoolIn(time)) {
+                while (needsInc(time)) { // Increments untill no longer needed as long as school is in 
+                    $scope.peri++;
+                }
+                endsIn(time); // Runs the helper function to give a value before displaing the app
             }
-            endsIn(time); // Runs the helper function to give a value before displaing the app
         };
         // Checks wheather or not school is in based on minutes since the beginning of the day
         var isSchoolIn = function (time) {
@@ -299,11 +63,11 @@ angular.module('whenDoesItEndApp')
             var hour = Math.floor(diff / 60); // Sets hour as the truncated quotient of the number of minutes left in class and 60
             var min = diff - (60 * hour); // Sets min as the number of minutes left in class minus those reperesented by the hour denomination
             if (hour <= 0) { // Checks if the hour var is less than or equal too zero, if true, only the minuts are displayed
-                resp = min + ' minute' + (min == 1 ? '' : 's'); // Sets resp as just the minuts left in class
-            } else if(!(hour <= 0) && min == 0){
-                resp = hour + ' hour'
+                resp = min + ' minute' + (min === 1 ? '' : 's'); // Sets resp as just the minuts left in class
+            } else if ((hour <= 0) && min === 0) {
+                resp = hour + ' hour';
             } else { // Otherwise, if there is a nonzero value for hours, bot the hours and minutes are displayed
-                resp = hour + ' hour and ' + min + ' minute' + (min == 1 ? '' : 's'); // Sets resp as both the hours and the minutes
+                resp = hour + ' hour and ' + min + ' minute' + (min === 1 ? '' : 's'); // Sets resp as both the hours and the minutes
             }
 
             $scope.endsIn = resp; // Sets the endsIn var to equal the local resp var

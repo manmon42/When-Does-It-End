@@ -16,8 +16,21 @@ angular.module('whenDoesItEndApp')
         // Initialises the endsIn var as a string
         $scope.endsIn = '';
         // Sets the day array's contents
-        $http.get('/res/drake.json').then(function (res) {
+        $http.get('../../res/drake.json').then(function (res) {
             $scope.day = res.data;
+            init();
+            // Interval, runs once every second
+            $interval(function () {
+                var date = new Date(); // Sets date to be a new Date() object
+                // date.setHours(10, 20); //Used for debugging, overrides the hour and minute values.
+                var time = convertTime(date); // Converts the current time into minutes since the beginning of the day
+                if (isSchoolIn(time)) { // Checks if school is in, if false, the in() and endsIn() functions dont need to run
+                    if (needsInc(time)) {
+                        $scope.peri++;
+                    }
+                    endsIn(time); // Runs the endsIn() function and passes in the converted time
+                }
+            }, 1000);
         }, function (err) {
             console.log(err);
         });
@@ -73,18 +86,6 @@ angular.module('whenDoesItEndApp')
             $scope.endsIn = resp; // Sets the endsIn var to equal the local resp var
 
         };
-        init();
-        // Interval, runs once every second
-        $interval(function () {
-            var date = new Date(); // Sets date to be a new Date() object
-            // date.setHours(10, 20); //Used for debugging, overrides the hour and minute values.
-            var time = convertTime(date); // Converts the current time into minutes since the beginning of the day
-            if (isSchoolIn(time)) { // Checks if school is in, if false, the in() and endsIn() functions dont need to run
-                if (needsInc(time)) {
-                    $scope.peri++;
-                }
-                endsIn(time); // Runs the endsIn() function and passes in the converted time
-            }
-        }, 1000);
+
 
     });

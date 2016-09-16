@@ -1,0 +1,13 @@
+<h1>PICK A SCHOOL</h1>
+<md-input-container class="md-block" flex-gt-sm>
+    <md-select>
+        <md-option>
+            REDWOOD
+        </md-option>
+    </md-select>
+</md-input-container>
+<md-input-container>
+  <md-select ng-model="someModel" placeholder="Select a state">
+    <md-option ng-value="school" ng-repeat="school in schools">{{ school }}</md-option>
+  </md-select>
+</md-input-container>

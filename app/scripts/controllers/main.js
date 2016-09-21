@@ -8,7 +8,24 @@
  * Controller of the whenDoesItEndApp
  */
 angular.module('whenDoesItEndApp')
-    .controller('MainCtrl', function ($scope, $interval, $http) {
+    .controller('MainCtrl', function ($scope, $interval, $http, $cookies) {
+        $scope.schools = [
+            'Redwood',
+            'Drake'
+        ];
+        $scope.school = '';
+        //$cookies.remove('school');
+        $scope.close = function (choice) {
+            $cookies.put('school', choice);
+            get();
+        };
+        $scope.choiceMade = function () {
+            if ($cookies.get('school')) {
+                return false;
+            } else {
+                return true;
+            }
+        };
         // Sets the day-index (dayi) to the current day-1 as 0 is sunday
         $scope.dayi = new Date().getDay() - 1;
         // Sets the period-index (peri) to 0 for the start of the day
@@ -16,25 +33,26 @@ angular.module('whenDoesItEndApp')
         // Initialises the endsIn var as a string
         $scope.endsIn = '';
         // Sets the day array's contents
-        $http.get('../../res/drake.json').then(function (res) {
-            $scope.day = res.data;
-            init();
-            // Interval, runs once every second
-            $interval(function () {
-                var date = new Date(); // Sets date to be a new Date() object
-                // date.setHours(10, 20); //Used for debugging, overrides the hour and minute values.
-                var time = convertTime(date); // Converts the current time into minutes since the beginning of the day
-                if (isSchoolIn(time)) { // Checks if school is in, if false, the in() and endsIn() functions dont need to run
-                    if (needsInc(time)) {
-                        $scope.peri++;
+        var get = function () {
+            $http.get('../../res/' + $cookies.get('school') + '.json').then(function (res) {
+                $scope.day = res.data;
+                init();
+                // Interval, runs once every second
+                $interval(function () {
+                    var date = new Date(); // Sets date to be a new Date() object
+                    // date.setHours(10, 20); //Used for debugging, overrides the hour and minute values.
+                    var time = convertTime(date); // Converts the current time into minutes since the beginning of the day
+                    if (isSchoolIn(time)) { // Checks if school is in, if false, the in() and endsIn() functions dont need to run
+                        if (needsInc(time)) {
+                            $scope.peri++;
+                        }
+                        endsIn(time); // Runs the endsIn() function and passes in the converted time
                     }
-                    endsIn(time); // Runs the endsIn() function and passes in the converted time
-                }
-            }, 1000);
-        }, function (err) {
-            console.log(err);
-        });
-
+                }, 1000);
+            }, function (err) {
+                console.log(err);
+            });
+        };
         // Function to determine wheather or not the period needs to be incremented
         var needsInc = function (time) {
             return (time >= $scope.day[$scope.dayi].periods[$scope.peri].end);
@@ -86,6 +104,12 @@ angular.module('whenDoesItEndApp')
             $scope.endsIn = resp; // Sets the endsIn var to equal the local resp var
 
         };
-
+        $scope.switchSchools = function(){
+            console.log('Switch');
+            $cookies.remove('school');
+        }
+        if ($cookies.get('school')) {
+            get();
+        }
 
     });

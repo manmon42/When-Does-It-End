@@ -18,7 +18,9 @@ h2 {
     font-size: 7.0em;
     color: #C2185B
 }
-
+a{
+    cursor: pointer; 
+}
 
 /* Custom page footer */
 

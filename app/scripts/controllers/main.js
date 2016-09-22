@@ -42,6 +42,7 @@ angular.module('whenDoesItEndApp')
                     var date = new Date(); // Sets date to be a new Date() object
                     // date.setHours(10, 20); //Used for debugging, overrides the hour and minute values.
                     var time = convertTime(date); // Converts the current time into minutes since the beginning of the day
+                    $scope.time = time;
                     if (isSchoolIn(time)) { // Checks if school is in, if false, the in() and endsIn() functions dont need to run
                         if (needsInc(time)) {
                             $scope.peri++;
@@ -107,7 +108,8 @@ angular.module('whenDoesItEndApp')
         $scope.switchSchools = function(){
             console.log('Switch');
             $cookies.remove('school');
-        }
+            $scope.peri = 0;
+        };
         if ($cookies.get('school')) {
             get();
         }

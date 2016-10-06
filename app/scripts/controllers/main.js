@@ -8,24 +8,16 @@
  * Controller of the whenDoesItEndApp
  */
 angular.module('whenDoesItEndApp')
-    .controller('MainCtrl', function ($scope, $interval, $http, $cookies) {
+    .controller('MainCtrl', function ($scope, $interval, $http, $localStorage) {
         $scope.schools = [
             'Redwood',
             'Drake'
         ];
-        $scope.school = '';
-        //$cookies.remove('school');
-        $scope.close = function (choice) {
-            $cookies.put('school', choice);
-            get();
-        };
-        $scope.choiceMade = function () {
-            if ($cookies.get('school')) {
-                return false;
-            } else {
-                return true;
-            }
-        };
+
+        $scope.school = $localStorage.$default({
+            choice: ''
+        });
+        
         // Sets the day-index (dayi) to the current day-1 as 0 is sunday
         $scope.dayi = new Date().getDay() - 1;
         // Sets the period-index (peri) to 0 for the start of the day
@@ -34,7 +26,8 @@ angular.module('whenDoesItEndApp')
         $scope.endsIn = '';
         // Sets the day array's contents
         var get = function () {
-            $http.get('../../res/' + $cookies.get('school') + '.json').then(function (res) {
+            console.log($scope.school.choice);
+            $http.get('../../res/' + $scope.school.choice + '.json').then(function (res) {
                 $scope.day = res.data;
                 init();
                 // Interval, runs once every second
@@ -106,11 +99,11 @@ angular.module('whenDoesItEndApp')
 
         };
         $scope.switchSchools = function(){
-            console.log('Switch');
-            $cookies.remove('school');
+            $scope.school.choice = '';
+            console.log($scope.school.choice);
             $scope.peri = 0;
         };
-        if ($cookies.get('school')) {
+        if ($scope.school.choice !== '') {
             get();
         }
 

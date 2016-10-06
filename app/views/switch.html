@@ -1,6 +1,6 @@
 <h1>PICK A SCHOOL</h1>
 <md-input-container>
-    <md-select ng-model="school" placeholder="Select a school" ng-change="close(school)">
+    <md-select ng-model="school.choice" placeholder="Select a school" ng-change="get()">
         <md-option ng-repeat="school in schools">{{school}}</option>
     </md-select>
 </md-input-container>

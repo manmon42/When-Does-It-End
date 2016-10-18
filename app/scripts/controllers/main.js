@@ -25,8 +25,7 @@ angular.module('whenDoesItEndApp')
         // Initialises the endsIn var as a string
         $scope.endsIn = '';
         // Sets the day array's contents
-        var get = function () {
-            console.log($scope.school.choice);
+        $scope.get = function () {
             $http.get('../../res/' + $scope.school.choice + '.json').then(function (res) {
                 $scope.day = res.data;
                 init();
@@ -104,7 +103,7 @@ angular.module('whenDoesItEndApp')
             $scope.peri = 0;
         };
         if ($scope.school.choice !== '') {
-            get();
+            $scope.get();
         }
 
     });

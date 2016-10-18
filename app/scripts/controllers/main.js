@@ -89,9 +89,9 @@ angular.module('whenDoesItEndApp')
             if (hour <= 0) { // Checks if the hour var is less than or equal too zero, if true, only the minuts are displayed
                 resp = min + ' minute' + (min === 1 ? '' : 's'); // Sets resp as just the minuts left in class
             } else if ((hour <= 0) && min === 0) {
-                resp = hour + ' hour';
+                resp = hour + ' hour' + (hour === 1 ? '' : 's');
             } else { // Otherwise, if there is a nonzero value for hours, bot the hours and minutes are displayed
-                resp = hour + ' hour and ' + min + ' minute' + (min === 1 ? '' : 's'); // Sets resp as both the hours and the minutes
+                resp = hour + ' hour' + (hour === 1 ? '' : 's') + ' and ' + min + ' minute' + (min === 1 ? '' : 's'); // Sets resp as both the hours and the minutes
             }
 
             $scope.endsIn = resp; // Sets the endsIn var to equal the local resp var

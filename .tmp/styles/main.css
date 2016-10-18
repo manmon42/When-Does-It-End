@@ -11,11 +11,11 @@ body {
 }
 
 h1 {
-    font-size: 9.0em;
+    font-size: 12.0vh;
 }
 
 h2 {
-    font-size: 7.0em;
+    font-size: 10.0vh;
     color: #C2185B
 }
 a{
@@ -35,45 +35,36 @@ a{
 
 @media screen and (max-width: 1000px) {
     h1 {
-        font-size: 8.0em;
+        font-size: 10.0vh;
     }
     h2 {
-        font-size: 5.0em;
+        font-size: 8.0vh;
     }
 }
 
 @media screen and (max-width: 700px) {
     h1 {
-        font-size: 6.0em;
+        font-size: 8.0vh;
     }
     h2 {
-        font-size: 4.0em;
+        font-size: 6.0vh;
     }
 }
 
 @media screen and (max-width: 550px) {
     h1 {
-        font-size: 5.0em;
+        font-size: 7.0vh;
     }
     h2 {
-        font-size: 3.0em;
+        font-size: 5.0vh;
     }
 }
 
 @media screen and (max-width: 450px) {
     h1 {
-        font-size: 4.0em;
+        font-size: 6.0vh;
     }
     h2 {
-        font-size: 2.0em;
-    }
-}
-
-@media screen and (max-width: 400px) {
-    h1 {
-        font-size: 3.0em;
-    }
-    h2 {
-        font-size: 2.0em;
+        font-size: 4.0vh;
     }
 }

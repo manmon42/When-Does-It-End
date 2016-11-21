@@ -19,7 +19,7 @@ angular.module('whenDoesItEndApp')
         });
         
         // Sets the day-index (dayi) to the current day-1 as 0 is sunday
-        $scope.dayi = new Date().getDay() - 1;
+        $scope.dayi = new Date().getDay();
         // Sets the period-index (peri) to 0 for the start of the day
         $scope.peri = 0;
         // Initialises the endsIn var as a string
@@ -105,5 +105,11 @@ angular.module('whenDoesItEndApp')
         if ($scope.school.choice !== '') {
             $scope.get();
         }
+
+        $scope.getTime = function(end){
+            var hours = Math.floor(end/60);
+            var minutes = end - (hours*60);
+            return (hours>12 ? hours-12 : hours)+':'+(minutes===0 ? '00' : minutes) + (hours>12 ? 'pm' : 'am');
+        };
 
     });

@@ -10,3 +10,9 @@
 <h1>NEXT IS</h1>
 <!-- Dynamic text: Reads name property of next period -->
 <h2>{{ day[dayi].periods[peri+1].name }}</h2>
+
+<ul class="list-group">
+    <li class="list-group-item" ng-repeat="per in day[dayi].periods">
+        <p>{{ per.name }} ends at {{ getTime(per.end) }}</p>
+    </li>
+</ul>

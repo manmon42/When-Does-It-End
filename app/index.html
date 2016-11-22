@@ -24,11 +24,20 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
+    
 
     <!-- Container for views, loads the controller -->
     <div class="container" ng-controller='MainCtrl'>
         <!-- Dynamically swaps in the views based on isSchoolOut() -->
-
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <span flex></span>
+                <h1>
+                    <a style="color: #C2185B" href="https://docs.google.com/forms/d/e/1FAIpQLSdSYW-AqqiGHqPjYF3ZklV6jxUPXEW_1X7dgRiNuEk3s0m0wA/viewform?c=0&w=1" target="_blank">Drake yearbook Lunctime Survey</a>
+                </h1>
+                <span flex></span>
+            </div>
+        </md-toolbar>
         <ng-include ng-if="school.choice == ''" src="'views/switch.html'"></ng-include>
         <ng-include ng-if="isSchoolIn && !school.choice == ''" src="'views/main.html'"></ng-include>
         <ng-include ng-if="!isSchoolIn && !school.choice == ''" src="'views/out.html'"></ng-include>

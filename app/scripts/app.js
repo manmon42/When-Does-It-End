@@ -20,6 +20,9 @@ angular
     'ngMaterial',
     'ngStorage'
   ])
+  .config(function($mdThemingProvider) {
+    $mdThemingProvider.disableTheming();
+  })
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {

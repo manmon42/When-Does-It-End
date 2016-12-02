@@ -19,7 +19,7 @@ angular.module('whenDoesItEndApp')
         });
         
         // Sets the day-index (dayi) to the current day-1 as 0 is sunday
-        $scope.dayi = new Date().getDay();
+        $scope.dayi = new Date().getDay()-1;
         // Sets the period-index (peri) to 0 for the start of the day
         $scope.peri = 0;
         // Initialises the endsIn var as a string

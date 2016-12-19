@@ -10,6 +10,7 @@
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -30,7 +31,7 @@
 
     <!-- Container for views, loads the controller -->
     <div class="container" ng-controller='MainCtrl'>
-        <!-- Dynamically swaps in the views based on isSchoolOut() -->
+        <!-- Dynamically swaps in the views based on isSchoolOut()
         <md-toolbar>
             <div class="md-toolbar-tools">
                 <span flex></span>
@@ -43,12 +44,15 @@
         <ng-include ng-if="school.choice == ''" src="'views/switch.html'"></ng-include>
         <ng-include ng-if="isSchoolIn && !school.choice == ''" src="'views/main.html'"></ng-include>
         <ng-include ng-if="!isSchoolIn && !school.choice == ''" src="'views/out.html'"></ng-include>
-        
+         -->
         <!-- Fotter, nothing much interesting here -->
+
+        <h1>FINAL SCHEDULES ARE DIFFERENT</h1>
+
         <div class="footer">
             <div class="container">
                 <p>
-                    <a ng-click="switchSchools()">Switch Schools</a> ||
+                    <!-- <a ng-click="switchSchools()">Switch Schools</a> || -->
                     <span class="glyphicon glyphicon-heart"></span> from the <a href='http://dhsdevelopers.org/#/'>DHSDevClub</a>
                 </p>
             </div>
@@ -82,6 +86,7 @@
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angularLocalStorage/dist/angularLocalStorage.min.js"></script>
     <script src="bower_components/ngstorage/ngStorage.js"></script>
+    <script src="bower_components/angular-material/angular-material.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 

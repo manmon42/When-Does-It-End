@@ -22,7 +22,7 @@ module.exports = function (grunt) {
     // Configurable paths for the application
     var appConfig = {
         app: require('./bower.json').appPath || 'app',
-        dist: '../manmon42.github.io'
+        dist: '../when-dist/app'
     };
 
     // Define the configuration for all the tasks
@@ -383,7 +383,9 @@ module.exports = function (grunt) {
             '*.html',
             'images/{,*/}*.{webp}',
             'styles/fonts/{,*/}*.*',
-            'res/*'
+            'res/*',
+            'scripts/sw/*',
+            'sw.js'
           ]
         }, {
                     expand: true,

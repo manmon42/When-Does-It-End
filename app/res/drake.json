@@ -190,5 +190,33 @@
                 "end": 880
             }
         ]
+    },
+    {
+        "periods": [
+            {
+                "name": "3rd",
+                "end": 565
+            },
+            {
+                "name": "Break",
+                "end": 580
+            },
+            {
+                "name": "4th",
+                "end": 665
+            },
+            {
+                "name": "Break",
+                "end": 680
+            },
+            {
+                "name": "6th",
+                "end": 765
+            },
+            {
+                "name": "Freedom",
+                "end": 765
+            }
+        ]
     }
 ]

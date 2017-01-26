@@ -7,8 +7,13 @@
  * # MainCtrl
  * Controller of the whenDoesItEndApp
  */
+
+
+
 angular.module('whenDoesItEndApp')
-    .controller('MainCtrl', function ($scope, $interval, $http, $localStorage) {
+    .controller('MainCtrl', function ($scope, $interval, $http, $localStorage, ngAudio) {
+        $scope.sound = ngAudio.load("../../res/audio.mp3");
+        $scope.drakeMinimum = false;
         $scope.schools = [
             'Redwood',
             'Drake'
@@ -17,9 +22,11 @@ angular.module('whenDoesItEndApp')
         $scope.school = $localStorage.$default({
             choice: ''
         });
+
+        $scope.audio = $localStorage.$default({
+            on: false
+        });        
         
-        // Sets the day-index (dayi) to the current day-1 as 0 is sunday
-        $scope.dayi = new Date().getDay()-1;
         // Sets the period-index (peri) to 0 for the start of the day
         $scope.peri = 0;
         // Initialises the endsIn var as a string
@@ -32,12 +39,15 @@ angular.module('whenDoesItEndApp')
                 // Interval, runs once every second
                 $interval(function () {
                     var date = new Date(); // Sets date to be a new Date() object
-                    // date.setHours(10, 20); //Used for debugging, overrides the hour and minute values.
+                    // date.setHours($scope.testHour, $scope.testMin); //Used for debugging, overrides the hour and minute values.
                     var time = convertTime(date); // Converts the current time into minutes since the beginning of the day
                     $scope.time = time;
-                    if (isSchoolIn(time)) { // Checks if school is in, if false, the in() and endsIn() functions dont need to run
+                    if (isSchoolIn(time) && $scope.school.choice !== '') { // Checks if school is in, if false, the in() and endsIn() functions dont need to run
                         if (needsInc(time)) {
                             $scope.peri++;
+                            if($scope.audio.on){
+                                $scope.sound.play();
+                            }
                         }
                         endsIn(time); // Runs the endsIn() function and passes in the converted time
                     }
@@ -56,10 +66,17 @@ angular.module('whenDoesItEndApp')
         };
         // Initialises the app by running helper functions
         var init = function () {
+            // Checks if the minimum day variable has been set manually, thanks school
+            if($scope.drakeMinimum && $scope.school.choice === "Drake"){
+                $scope.dayi = 5;
+            }else{
+                // Sets the day-index (dayi) to the current day-1 as 0 is sunday
+                $scope.dayi = new Date().getDay()-1;
+            }
             var tempDate = new Date(); // Sets temp date var just for the init scope
-            // tempDate.setHours(10, 20); //Used for debugging, overrides the hour and minute values.
+            // tempDate.setHours($scope.testHour, $scope.testMin); //Used for debugging, overrides the hour and minute values.
             var time = convertTime(tempDate); // Converts the temp date time to time code
-            if (isSchoolIn(time)) {
+            if (isSchoolIn(time) && $scope.school.choice !== '') {
                 while (needsInc(time)) { // Increments untill no longer needed as long as school is in 
                     $scope.peri++;
                 }
@@ -68,7 +85,7 @@ angular.module('whenDoesItEndApp')
         };
         // Checks wheather or not school is in based on minutes since the beginning of the day
         var isSchoolIn = function (time) {
-            if ($scope.dayi === 5 || $scope.dayi === -1) { // Checks if the day is Saturday(5) or Sunday(-1). Sunday is off because 1 is subtracted from the date in dayi to make the arrays easier
+            if (new Date().getDay() === 6 || new Date().getDay() === 0) { // Checks if the day is Saturday(5) or Sunday(-1). Sunday is off because 1 is subtracted from the date in dayi to make the arrays easier
                 $scope.isSchoolIn = false;
             } else if (time < 480) { // Checks if the time is befor 8:00, before school starts
                 $scope.isSchoolIn = false;

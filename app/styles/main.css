@@ -18,13 +18,23 @@ h2 {
     font-size: 10.0vh;
     color: #C2185B
 }
-a{
+
+a {
     cursor: pointer; 
+}
+
+.fottertext {
+    display: inline-block;
+}
+
+md-switch {
+    display: inline-block;
 }
 
 /* Custom page footer */
 
 .footer {
+    align-items: center;
     padding-top: 19px;
     color: #777;
     border-top: 1px solid #e5e5e5;

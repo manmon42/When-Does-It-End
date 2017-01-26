@@ -22,40 +22,34 @@
     
 </head>
 
-<body ng-app="whenDoesItEndApp">
+<body ng-app="whenDoesItEndApp" ng-cloak>
     <!--[if lte IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-
     
 
     <!-- Container for views, loads the controller -->
     <div class="container" ng-controller='MainCtrl'>
-        <!-- Dynamically swaps in the views based on isSchoolOut()
-        <md-toolbar>
-            <div class="md-toolbar-tools">
-                <span flex></span>
-                <h1>
-                    <a style="color: #C2185B" href="https://docs.google.com/forms/d/e/1FAIpQLSdSYW-AqqiGHqPjYF3ZklV6jxUPXEW_1X7dgRiNuEk3s0m0wA/viewform?c=0&w=1" target="_blank">Drake yearbook Lunchtime Survey</a>
-                </h1>
-                <span flex></span>
-            </div>
-        </md-toolbar>
+        <!-- Dynamically swaps in the views based on isSchoolOut() -->
         <ng-include ng-if="school.choice == ''" src="'views/switch.html'"></ng-include>
         <ng-include ng-if="isSchoolIn && !school.choice == ''" src="'views/main.html'"></ng-include>
         <ng-include ng-if="!isSchoolIn && !school.choice == ''" src="'views/out.html'"></ng-include>
-         -->
+
         <!-- Fotter, nothing much interesting here -->
+        <div class="footer" layout="row">
+<!--
+            <label>Hour</label>
+            <input type="number" ng-model="testHour" >
 
-        <h1>FINAL SCHEDULES ARE DIFFERENT</h1>
-
-        <div class="footer">
-            <div class="container">
-                <p>
-                    <!-- <a ng-click="switchSchools()">Switch Schools</a> || -->
-                    <span class="glyphicon glyphicon-heart"></span> from the <a href='http://dhsdevelopers.org/#/'>DHSDevClub</a>
-                </p>
-            </div>
+            <label>Minute</label>
+            <input type="number" ng-model="testMin" >
+-->
+            <div flex ></div>
+                <md-switch ng-model="audio.on">Audio: {{audio.on ? "On" : "Off"}}</md-switch>
+                &nbsp || &nbsp
+                <!-- <a ng-click="switchSchools()">Switch Schools</a> || -->
+                <a ng-click="switchSchools()">Switch Schools</a> &nbsp || &nbsp <span class="glyphicon glyphicon-heart">&nbsp</span>from the &nbsp<a href='http://dhsdevelopers.org/#/'>DHSDevClub</a>
+            <div flex></div>
         </div>
     </div>
 
@@ -87,6 +81,7 @@
     <script src="bower_components/angularLocalStorage/dist/angularLocalStorage.min.js"></script>
     <script src="bower_components/ngstorage/ngStorage.js"></script>
     <script src="bower_components/angular-material/angular-material.js"></script>
+    <script src="bower_components/angular-audio/app/angular.audio.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -94,8 +89,6 @@
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/main.js"></script>
     <!-- endbuild -->
-    <!-- Angular Material Library -->
-    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
 
     <script src="sw.js"></script>
     <script src="scripts/sw/test.js"></script>

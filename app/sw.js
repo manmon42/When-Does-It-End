@@ -1,3 +1,4 @@
+/*
 'use strict';
 var CACHE_NAME = 'v1';
 var urlsToCache = [

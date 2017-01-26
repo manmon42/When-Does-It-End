@@ -18,8 +18,15 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngMaterial',
-    'ngStorage'
+    'ngStorage',
+    'ngAudio'
   ])
+  angular.module('myApp', ['ngMaterial'])
+  .config(function($mdThemingProvider) {
+    $mdThemingProvider.theme('default')
+      .primaryPalette('red')
+      .accentPalette('orange');
+  })
   .config(function($mdThemingProvider) {
     $mdThemingProvider.disableTheming();
   })

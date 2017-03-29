@@ -13,7 +13,7 @@
 angular.module('whenDoesItEndApp')
     .controller('MainCtrl', function ($scope, $interval, $http, $localStorage, ngAudio) {
         $scope.sound = ngAudio.load("../../res/audio.mp3");
-        $scope.drakeMinimum = false;
+        $scope.drakeMinimum = true;
         $scope.schools = [
             'Redwood',
             'Drake'
@@ -25,8 +25,8 @@ angular.module('whenDoesItEndApp')
 
         $scope.audio = $localStorage.$default({
             on: false
-        });        
-        
+        });
+
         // Sets the period-index (peri) to 0 for the start of the day
         $scope.peri = 0;
         // Initialises the endsIn var as a string
@@ -77,7 +77,7 @@ angular.module('whenDoesItEndApp')
             // tempDate.setHours($scope.testHour, $scope.testMin); //Used for debugging, overrides the hour and minute values.
             var time = convertTime(tempDate); // Converts the temp date time to time code
             if (isSchoolIn(time) && $scope.school.choice !== '') {
-                while (needsInc(time)) { // Increments untill no longer needed as long as school is in 
+                while (needsInc(time)) { // Increments untill no longer needed as long as school is in
                     $scope.peri++;
                 }
                 endsIn(time); // Runs the helper function to give a value before displaing the app
